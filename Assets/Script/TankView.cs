@@ -11,11 +11,6 @@ public class TankView : MonoBehaviour
     public Rigidbody rb;
 
     public MeshRenderer[] childs;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -23,12 +18,12 @@ public class TankView : MonoBehaviour
 
         if(movement != 0)
         {
-            tankController.Move(movement, 30);
+            tankController.Move(movement, tankController.GetTankSpeed());
         }
 
         if (rotation != 0)
         {
-            tankController.Rotate(rotation, 30);
+            tankController.Rotate(rotation, tankController.GetTankRotationSpeed());
         }
     }
 

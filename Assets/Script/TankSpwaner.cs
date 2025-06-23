@@ -40,7 +40,6 @@ public class TankSpwaner : MonoBehaviour
             TankModel tankModel = new TankModel(tankList[2].movementSpeed, tankList[2].rotationSpeed, tankList[2].tankType, tankList[2].color);
             TankController tankController = new TankController(tankModel, tankView);
         }
-
     }
 
 }
