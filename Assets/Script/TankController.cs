@@ -6,9 +6,12 @@ public class TankController
     private TankView tankView;
     private Rigidbody rb;
 
-    public TankController(TankModel _tankModel, TankView _tankView)
+    private CameraController cameraController;
+
+    public TankController(TankModel _tankModel, TankView _tankView , CameraController _cameraController)
     {
         tankModel = _tankModel;
+        cameraController = _cameraController;
         tankView = GameObject.Instantiate<TankView>(_tankView);
         rb = tankView.GetRigidbody();
 
@@ -16,6 +19,7 @@ public class TankController
         tankView.SetController(this);
 
         tankView.ChangeColor(tankModel.color);
+        cameraController.SetTarget(tankView.transform);
     }
 
     public void Move(float movement, float movementSpeed)

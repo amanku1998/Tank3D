@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 1179543940}
   - component: {fileID: 1179543939}
   - component: {fileID: 1179543938}
+  - component: {fileID: 1179543941}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -242,7 +243,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 71.3
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -268,13 +269,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179543937}
   m_LocalRotation: {x: 0.36778352, y: -0, z: -0, w: 0.92991143}
-  m_LocalPosition: {x: 0, y: 14.2, z: -10}
+  m_LocalPosition: {x: 0, y: 13.88, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 43.158, y: 0, z: 0}
+--- !u!114 &1179543941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179543937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fedd5071e4765ca4fa6ab983ab11abd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  offset: {x: 0, y: 12, z: -8}
+  smoothSpeed: 5
+  rotationSmoothSpeed: 5
 --- !u!1001 &1579037235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -476,6 +493,7 @@ MonoBehaviour:
     color: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}
   tankView: {fileID: 8699443183017564744, guid: 8d84541ec0c146647998917a75edf49e,
     type: 3}
+  cameraController: {fileID: 1179543941}
 --- !u!4 &1735764503
 Transform:
   m_ObjectHideFlags: 0

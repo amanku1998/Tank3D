@@ -16,7 +16,7 @@ public class TankSpwaner : MonoBehaviour
     public List<Tank> tankList;
 
     public TankView tankView;
-
+    [SerializeField] private CameraController cameraController;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,17 +28,17 @@ public class TankSpwaner : MonoBehaviour
         if(tankType == TankTypes.GreenTank)
         {
             TankModel tankModel = new TankModel(tankList[0].movementSpeed, tankList[0].rotationSpeed, tankList[0].tankType, tankList[0].color);
-            TankController tankController = new TankController(tankModel, tankView);
+            TankController tankController = new TankController(tankModel, tankView, cameraController);
         }
         else if (tankType == TankTypes.BlueTank)
         {
             TankModel tankModel = new TankModel(tankList[1].movementSpeed, tankList[1].rotationSpeed, tankList[1].tankType, tankList[1].color);
-            TankController tankController = new TankController(tankModel, tankView);
+            TankController tankController = new TankController(tankModel, tankView, cameraController);
         }
         else if (tankType == TankTypes.RedTank)
         {
             TankModel tankModel = new TankModel(tankList[2].movementSpeed, tankList[2].rotationSpeed, tankList[2].tankType, tankList[2].color);
-            TankController tankController = new TankController(tankModel, tankView);
+            TankController tankController = new TankController(tankModel, tankView, cameraController);
         }
     }
 
