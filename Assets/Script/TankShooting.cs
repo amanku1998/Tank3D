@@ -14,7 +14,6 @@ public class TankShooting : MonoBehaviour
     public float maxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
     public float maxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
-
     private string fireButton;                // The input axis that is used for launching shells.
     private float currentLaunchForce;         // The force that will be given to the shell when the fire button is released.
     private float chargeSpeed;                // How fast the launch force increases, based on the max charge time.
@@ -69,7 +68,6 @@ public class TankShooting : MonoBehaviour
         }
     }
 
-
     private void Fire()
     {
         // Set the fired flag so only Fire is only called once.
@@ -85,5 +83,4 @@ public class TankShooting : MonoBehaviour
         // Reset the launch force.  This is a precaution in case of missing button events.
         currentLaunchForce = minLaunchForce;
     }
-    
 }
