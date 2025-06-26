@@ -20,6 +20,14 @@ public class BulletView : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        if (rb.velocity.sqrMagnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(rb.velocity);
+        }
+    }
+
     public void SetController(BulletController bulletController)
     {
         controller = bulletController;
@@ -70,8 +78,12 @@ public class BulletView : MonoBehaviour
     }
     private void SetExplosionAudio()
     {
-        source.clip = explosionClip;
-        source.Play();
+        AudioSource impactAudio = impactEffect.GetComponent<AudioSource>();
+        if (impactAudio != null)
+        {
+            impactAudio.clip = explosionClip;
+            impactAudio.Play();
+        }
     }
 
     public void DestroyBullet()

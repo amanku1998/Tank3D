@@ -1081,7 +1081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1173408685
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2196,6 +2196,7 @@ MonoBehaviour:
   tankView: {fileID: 8699443183017564744, guid: 8d84541ec0c146647998917a75edf49e,
     type: 3}
   cameraController: {fileID: 1179543941}
+  bulletDatabase: {fileID: 11400000, guid: eb29537e7bdc56147bc5bc804d61ae61, type: 2}
 --- !u!4 &1735764503
 Transform:
   m_ObjectHideFlags: 0

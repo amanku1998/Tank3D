@@ -55,8 +55,6 @@ public class TankHealth : MonoBehaviour
         // Change the UI elements appropriately.
         SetHealthUI();
 
-        Debug.Log($"{gameObject.name} took {damage} damage. Remaining health: {currentHealth}");
-
         // If the current health is at or below zero and it has not yet been registered, call OnDeath.
         if (currentHealth <= 0f && !m_Dead)
         {

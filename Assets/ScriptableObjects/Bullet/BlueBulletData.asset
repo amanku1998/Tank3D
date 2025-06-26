@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6c3bafda844d1946853fe3694a3c73a, type: 3}
-  m_Name: RedBulletData
+  m_Name: BlueBulletData
   m_EditorClassIdentifier: 
-  bulletType: 2
-  bulletPrefab: {fileID: 8083178592454338562, guid: c30e8d5dff886fa46b400ef2d289e5a7,
+  bulletType: 1
+  bulletPrefab: {fileID: 8083178592454338562, guid: d3e206b422b95a74bb70d3dd790d19a4,
     type: 3}
-  speed: 4
-  damage: 35
-  bulletMaterial: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}
+  speed: 2.15
+  damage: 20
+  bulletMaterial: {fileID: 2100000, guid: ff21ff0ea9b18924bb1fdfbb0e58f5cb, type: 2}

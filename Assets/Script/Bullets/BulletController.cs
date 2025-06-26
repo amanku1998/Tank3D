@@ -9,7 +9,6 @@ public class BulletController
     {
         this.bulletModel = model;
         this.bulletView = GameObject.Instantiate(prefab, spawnPos, Quaternion.LookRotation(direction));
-
         bulletModel.SetController(this);
         bulletView.SetController(this);
 
@@ -17,10 +16,7 @@ public class BulletController
     }
 
     public void OnHit()
-    {
-        //bulletView.PlayImpactEffect();
-        //bulletView.DestroyBullet();
-        
+    {        
         bulletView.Explode(bulletModel.GetDamage()); ;
     }
 }

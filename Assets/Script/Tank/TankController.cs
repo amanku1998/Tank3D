@@ -16,7 +16,7 @@ public class TankController
     private float chargeSpeed;
     private bool fired;
 
-    public TankController(TankModel _tankModel, TankView _tankView , CameraController _cameraController)
+    public TankController(TankModel _tankModel, TankView _tankView , CameraController _cameraController, BulletDatabase _bulletDatabase)
     {
         tankModel = _tankModel;
         tankView = GameObject.Instantiate<TankView>(_tankView);
@@ -32,7 +32,7 @@ public class TankController
         chargeSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
         currentLaunchForce = minLaunchForce;
 
-        bulletDatabase = Resources.Load<BulletDatabase>("BulletDatabase");
+        bulletDatabase = _bulletDatabase;
     }
 
     public void HandleShootInput()
@@ -46,8 +46,7 @@ public class TankController
         else if (Input.GetKey(KeyCode.Space) && !fired)
         {   
             currentLaunchForce += chargeSpeed * Time.deltaTime;
-            Debug.Log("currentLaunchForce :" + currentLaunchForce + "maxLaunchForce :" + maxLaunchForce);
-
+       
             // Clamp to max value so the force doesn't exceed
             if (currentLaunchForce >= maxLaunchForce)
             {
