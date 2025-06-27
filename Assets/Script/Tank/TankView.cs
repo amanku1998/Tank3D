@@ -7,20 +7,15 @@ public class TankView : MonoBehaviour
     private float movement;
     private float rotation;
 
-    public Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
 
-    public MeshRenderer[] childs;
-    public AudioClip driving;
-    public AudioClip idle;
-    public AudioSource source;
+    [SerializeField] private MeshRenderer[] childs;
+    [SerializeField] private AudioClip driving;
+    [SerializeField] private AudioClip idle;
+    [SerializeField]private AudioSource source;
 
     public Transform firePoint; // assign in prefab
     public Slider aimSlider;  // A child of the tank that displays the current launch force.
-
-    void Start()
-    {
-        source = GetComponent<AudioSource>();
-    }
 
     private void Update()
     {

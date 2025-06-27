@@ -18,6 +18,9 @@ public class TankHealth : MonoBehaviour
     private float currentHealth;
     private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
 
+    private EnemyTankSpawner spawner;
+    [SerializeField] private bool isEnemy = false;
+
     private void Awake()
     {
         // Instantiate the explosion prefab and get a reference to the particle system on it.
@@ -79,5 +82,16 @@ public class TankHealth : MonoBehaviour
 
         // Turn the tank off.
         gameObject.SetActive(false);
+
+        if (isEnemy && spawner != null)
+        {
+            spawner.CreateTank(); // Re-spawn new random enemy tank
+        }
+    }
+
+    public void SetSpawner(EnemyTankSpawner _spawner)
+    {
+        isEnemy = true;
+        spawner = _spawner;
     }
 }

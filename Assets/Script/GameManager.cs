@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 	public float gameTimer;
 
 	private bool isGamesStart;
+	[SerializeField] private EnemyTankSpawner enemyTankSpawner;
 
 	private void Start()
 	{
@@ -60,5 +61,9 @@ public class GameManager : MonoBehaviour
 	public void StartGame()
 	{
 		isGamesStart = true;
-	}
+		enemyTankSpawner.OnStartGame();
+
+    }
+
+	
 }

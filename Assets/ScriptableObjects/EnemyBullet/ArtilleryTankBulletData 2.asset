@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3836f0b5201d7a44f838825d273ec171, type: 3}
+  m_Name: ArtilleryTankBulletData 2
+  m_EditorClassIdentifier: 
+  bulletType: 2
+  bulletPrefab: {fileID: 3158377919796982168, guid: bc60f92e82dae05448004b667d007153,
+    type: 3}
+  speed: 3
+  damage: 30
+  bulletMaterial: {fileID: 2100000, guid: 7e41e83d6bd224b4d99fa3ffa5e3a3a4, type: 2}
