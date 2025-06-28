@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BulletView : MonoBehaviour
@@ -50,19 +51,40 @@ public class BulletView : MonoBehaviour
 
         foreach (var collider in colliders)
         {
-            Rigidbody rb = collider.GetComponent<Rigidbody>();
-            if (rb != null)
+            // Only apply explosion force to enemy tanks
+            if (collider.CompareTag("EnemyTank"))
             {
-                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                Rigidbody rb = collider.GetComponent<Rigidbody>();
+                EnemyTankView enemyTankView = collider.GetComponent<EnemyTankView>();
+
+                // Apply damage if target has a health script
+                TankHealth tankHealth = collider.GetComponent<TankHealth>();
+                if (tankHealth != null)
+                {
+                    if (rb != null)
+                    {
+                        enemyTankView.ApplyExplosionForce(rb, explosionForce, transform.position, explosionRadius);
+                    }
+
+                    tankHealth.TakeDamage(damage);
+                }
+
             }
 
-            // Apply damage if target has a health script
-            TankHealth tankHealth = collider.GetComponent<TankHealth>();
-            if (tankHealth != null)
+            if (collider.CompareTag("Player"))
             {
-                tankHealth.TakeDamage(damage);
-            }
+                if (rb != null)
+                {
+                    rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                }
 
+                // Apply damage if target has a health script
+                TankHealth tankHealth = collider.GetComponent<TankHealth>();
+                if (tankHealth != null)
+                {
+                    tankHealth.TakeDamage(damage);
+                }
+            }
         }
         SetExplosionAudio();
         impactEffect.transform.parent = null;
@@ -71,6 +93,7 @@ public class BulletView : MonoBehaviour
         Destroy(impactEffect.gameObject, impactEffect.main.duration);
         Destroy(gameObject);
     }
+
     private void SetShootingAudio()
     {
         source.clip = shootingClip;

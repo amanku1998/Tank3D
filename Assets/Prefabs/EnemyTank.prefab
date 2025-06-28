@@ -5001,7 +5001,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5515536988854074734}
   m_LocalRotation: {x: -0.14780933, y: 0, z: 0, w: 0.9890159}
-  m_LocalPosition: {x: 0, y: 1.7, z: 1.35}
+  m_LocalPosition: {x: 0, y: 1.65, z: 1.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5283,9 +5283,10 @@ GameObject:
   - component: {fileID: 4521011528097376802}
   - component: {fileID: 6980850161710018386}
   - component: {fileID: 4608334891272866876}
+  - component: {fileID: 4753700764764910885}
   m_Layer: 9
   m_Name: EnemyTank
-  m_TagString: Untagged
+  m_TagString: EnemyTank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5332,6 +5333,7 @@ MonoBehaviour:
   idle: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
   source: {fileID: 4608334891272866876}
   firePoint: {fileID: 160349375967583450}
+  agent: {fileID: 4753700764764910885}
 --- !u!114 &829000971746315067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5363,9 +5365,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &6980850161710018386
 BoxCollider:
@@ -5476,6 +5478,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!195 &4753700764764910885
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7824482569307193747}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 10
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7824482569307193749
 GameObject:
   m_ObjectHideFlags: 0

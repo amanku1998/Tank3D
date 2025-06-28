@@ -32,26 +32,26 @@ public class TankHealth : MonoBehaviour
         // Disable the prefab so it can be activated when it's required.
         explosionParticles.gameObject.SetActive(false);
     }
-
     private void OnEnable()
     {
-        // When the tank is enabled, reset the tank's health and whether or not it's dead.
-        currentHealth = maxHealth;
         m_Dead = false;
-
-        // Update the health slider's value and color.
-        SetHealthUI();
+        if (!isEnemy)
+        {
+            // When the tank is enabled, reset the tank's health and whether or not it's dead.
+            currentHealth = maxHealth;
+            // Update the health slider's value and color.
+            SetHealthUI();
+        }
     }
-
     private void SetHealthUI()
     {
+        slider.maxValue = maxHealth; // Set the slider's maximum value to the tank's maximum health.
         // Set the slider's value appropriately.
         slider.value = currentHealth;
 
         // Interpolate the color of the bar between the choosen colours based on the current percentage of the starting health.
         fillImage.color = Color.Lerp(zeroHealthColor, fullHealthColor, currentHealth / maxHealth);
     }
-
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -64,7 +64,6 @@ public class TankHealth : MonoBehaviour
             Die();
         }
     }
-
     private void Die()
     {
         // Set the flag so that this function is only called once.
@@ -79,19 +78,29 @@ public class TankHealth : MonoBehaviour
 
         // Play the tank explosion sound effect.
         explosionAudio.Play();
+        //if (!isEnemy)
+        //{
+        //    GameManager.Instance.DisplayGameOverPanel();
+        //}
+        Destroy(gameObject);
+        Destroy(explosionParticles.gameObject);
 
-        // Turn the tank off.
-        gameObject.SetActive(false);
 
         if (isEnemy && spawner != null)
         {
             spawner.CreateTank(); // Re-spawn new random enemy tank
+            //GameManager.Instance.IncreaseScore(1);
         }
     }
-
     public void SetSpawner(EnemyTankSpawner _spawner)
     {
         isEnemy = true;
         spawner = _spawner;
+    }
+    public void SetMaxHealthEnemyTank(float enemyMaxHealth)
+    {
+        maxHealth = enemyMaxHealth;
+        currentHealth = maxHealth;
+        SetHealthUI();
     }
 }

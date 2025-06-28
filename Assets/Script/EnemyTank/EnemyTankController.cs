@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyTankController
 {
@@ -12,11 +13,23 @@ public class EnemyTankController
     private float fireTimer;
     private Transform player;
 
+    private NavMeshAgent navAgent;
+
     public EnemyTankController(EnemyTankModel _enemyTankModel, EnemyTankView _enemyTankView, EnemyBulletDataBase _enemyBulletDatabase)
     {
         enemyTankModel = _enemyTankModel;
         enemyTankView = GameObject.Instantiate<EnemyTankView>(_enemyTankView);
         rb = enemyTankView.GetRigidbody();
+        TankHealth health = enemyTankView.GetComponent<TankHealth>();
+        if (health != null)
+        {
+            health.SetMaxHealthEnemyTank(enemyTankModel.maxHealth); // or whatever value you want for enemy max health
+        }
+
+        navAgent = enemyTankView.GetAgent();
+        navAgent.updateRotation = false;
+        navAgent.speed = enemyTankModel.movementSpeed;
+        navAgent.angularSpeed = enemyTankModel.rotationSpeed;
 
         enemyTankModel.SetController(this);
         enemyTankView.SetController(this);
@@ -40,27 +53,38 @@ public class EnemyTankController
         {
             case EnemyTankType.ASSAULT_TANK:
                 MoveTowardPlayer();
-                TryFire(1.5f); // slower fire rate
+                // slower fire rate
+                TryFire(enemyTankModel.rapidFireRange); // slower fire rate
                 break;
 
             case EnemyTankType.SCOUT_TANK:
                 FlankPlayer();
-                TryFire(0.5f); // rapid fire
+                // rapid fire
+                float randomRange = Random.Range(0.65f, enemyTankModel.rapidFireRange);
+                TryFire(randomRange);
                 break;
 
             case EnemyTankType.ARTILLERY_TANK:
                 KeepDistance();
-                TryFire(2.5f); // slow, long range
+                // slow, long range
+                TryFire(enemyTankModel.rapidFireRange);
                 break;
+        }
+
+        AlignRotationWithAgent();
+    }
+
+    private void AlignRotationWithAgent()
+    {
+        if (navAgent.velocity.sqrMagnitude > 0.1f)
+        {
+            Vector3 direction = navAgent.velocity.normalized;
+            RotateToPlayer(direction);
         }
     }
 
     private void MoveTowardPlayer()
     {
-        //Vector3 direction = (player.position - enemyTankView.transform.position).normalized;
-        //Move(1f);
-        //RotateToPlayer(direction);
-
         float distance = Vector3.Distance(enemyTankView.transform.position, player.position);
         float attackRange = enemyTankModel.GetAttackRange(); // From model
 
@@ -69,26 +93,38 @@ public class EnemyTankController
 
         if (distance > attackRange)
         {
-            Move(1f); // Keep moving until close enough
+            MoveTo(player.position); // Keep moving until close enough
         }
         else
         {
-            Move(0f); // Stop when within range
+            navAgent.ResetPath(); // Stop moving when in range
         }
     }
 
     private void KeepDistance()
     {
         float distance = Vector3.Distance(enemyTankView.transform.position, player.position);
-        if (distance < 20f)
+        float minDistance = 20; // e.g. 10f (too close)
+        float maxDistance = enemyTankModel.GetAttackRange(); // e.g. 30f (ideal firing range)
+
+        Vector3 toPlayer = (player.position - enemyTankView.transform.position).normalized;
+
+        if (distance < minDistance)
         {
-            Vector3 dir = (enemyTankView.transform.position - player.position).normalized;
-            Move(1f); // back away
-            RotateToPlayer(-dir);
+            //when Too close then retreat
+            Vector3 retreatPos = enemyTankView.transform.position - toPlayer * 20f;
+            MoveTo(retreatPos);
+        }
+        else if (distance > maxDistance)
+        {
+            //when Too far
+            Vector3 advancePos = player.position - toPlayer * (maxDistance - 5f); // Stop short of max
+            MoveTo(advancePos);
         }
         else
         {
-            Move(0f); // stop
+            //In ideal range then hold position
+            navAgent.ResetPath();
         }
 
         RotateToPlayer(player.position - enemyTankView.transform.position);
@@ -98,25 +134,28 @@ public class EnemyTankController
     {
         Vector3 toPlayer = player.position - enemyTankView.transform.position;
         Vector3 flankDir = Vector3.Cross(Vector3.up, toPlayer).normalized;
-        Move(1f);
-        RotateToPlayer(flankDir);
+
+        Vector3 sideTarget = player.position + flankDir * 5f;
+        MoveTo(sideTarget);
+
+        RotateToPlayer(player.position - enemyTankView.transform.position);
     }
 
     private void RotateToPlayer(Vector3 direction)
     {
+        if (direction == Vector3.zero) return;
+
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Quaternion rotation = Quaternion.RotateTowards(enemyTankView.transform.rotation, lookRotation, enemyTankModel.rotationSpeed * Time.deltaTime);
+        Quaternion rotation = Quaternion.RotateTowards(
+            enemyTankView.transform.rotation,
+            lookRotation,
+            enemyTankModel.rotationSpeed * Time.deltaTime
+        );
         enemyTankView.transform.rotation = rotation;
     }
 
     private void TryFire(float cooldown)
     {
-        //if (fireTimer >= cooldown)
-        //{
-        //    fireTimer = 0;
-        //    Fire();
-        //}
-
         float distance = Vector3.Distance(enemyTankView.transform.position, player.position);
         float attackRange = enemyTankModel.GetAttackRange();
 
@@ -131,8 +170,6 @@ public class EnemyTankController
 
     private void Fire()
     {
-       // fired = true;
-
         EnemyBulletData data = enemyBulletDatabase.GetBulletData(enemyTankModel.GetBulletType());
 
         EnemyBulletModel enemyBulletModel = new EnemyBulletModel(
@@ -144,9 +181,16 @@ public class EnemyTankController
         new EnemyBulletController(enemyBulletModel, data.bulletPrefab, enemyTankView.firePoint.forward, enemyTankView.firePoint.position);
     }
 
-    public void Move(float movement)
+    public void MoveTo(Vector3 destination)
     {
-        rb.velocity = enemyTankView.transform.forward * movement * enemyTankModel.movementSpeed;
+        if (navAgent != null && navAgent.isOnNavMesh)
+        {
+            //updating destination if the current path is too old or far off
+            if (Vector3.Distance(navAgent.destination, destination) > 1f)
+            {
+                navAgent.SetDestination(destination);
+            }
+        }
     }
 
     public EnemyTankModel GetTankModel() => enemyTankModel;

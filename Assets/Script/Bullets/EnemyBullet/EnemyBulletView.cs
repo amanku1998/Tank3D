@@ -10,7 +10,7 @@ public class EnemyBulletView : MonoBehaviour
     [Header("Explosion Settings")]
     public LayerMask tankMask;
     public ParticleSystem impactEffect;
-    public float explosionForce = 1000f;
+    public float explosionForce = 800f;
     public float explosionRadius = 5f;
 
     public AudioClip shootingClip;
@@ -38,6 +38,11 @@ public class EnemyBulletView : MonoBehaviour
     public void Launch(Vector3 direction, float speed)
     {
         SetShootingAudio();
+        // Slightly tilt the bullet downward to avoid overshooting the player
+        if (direction.y > 0.1f) // Adjust this threshold as needed
+        {
+            direction = (direction + Vector3.down * 0.1f).normalized;
+        }
         rb.velocity = direction * speed;
     }
 

@@ -13,13 +13,13 @@ public class GameManager : MonoBehaviour
 
 	private bool isGamesStart;
 	[SerializeField] private EnemyTankSpawner enemyTankSpawner;
-
+    
 	private void Start()
 	{
-		isGamesStart = false;
+        isGamesStart = false;
 		Time.timeScale = 1;
 		ResetScore();
-	}
+    }
 
 	private void ResetScore()
 	{
@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
 	public void IncreaseScore(int value)
 	{
 		score += value;
-		gameTimer -= 5;
 		menu.UpdateScore(score);
 	}
 
@@ -44,7 +43,7 @@ public class GameManager : MonoBehaviour
 
 	private void isTimerOver()
 	{
-		if (gameTimer >= gameTimeLimit)
+		if (gameTimer >= gameTimeLimit )
 		{
 			isGamesStart = false;
 			Time.timeScale = 0;
@@ -61,9 +60,14 @@ public class GameManager : MonoBehaviour
 	public void StartGame()
 	{
 		isGamesStart = true;
-		enemyTankSpawner.OnStartGame();
-
+        Time.timeScale = 1;
+        enemyTankSpawner.OnStartGame();
     }
 
-	
+	public void DisplayGameOverPanel()
+	{
+        isGamesStart = false;
+        Time.timeScale = 0;
+        menu.EndGame(score);   
+    }
 }

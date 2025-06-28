@@ -15,6 +15,6 @@ MonoBehaviour:
   bulletType: 2
   bulletPrefab: {fileID: 3158377919796982168, guid: bc60f92e82dae05448004b667d007153,
     type: 3}
-  speed: 3
-  damage: 30
+  speed: 3.5
+  damage: 35
   bulletMaterial: {fileID: 2100000, guid: 7e41e83d6bd224b4d99fa3ffa5e3a3a4, type: 2}
