@@ -1,0 +1,100 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyBulletView : MonoBehaviour
+{
+    private EnemyBulletController enemyBulletController;
+    private Rigidbody rb;
+
+    [Header("Explosion Settings")]
+    public LayerMask tankMask;
+    public ParticleSystem impactEffect;
+    public float explosionForce = 800f;
+    public float explosionRadius = 5f;
+
+    public AudioClip shootingClip;
+    public AudioClip explosionClip;
+    public AudioSource source;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        if (rb.velocity.sqrMagnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(rb.velocity);
+        }
+    }
+
+    public void SetController(EnemyBulletController _enemyBulletController)
+    {
+        enemyBulletController = _enemyBulletController;
+    }
+
+    public void Launch(Vector3 direction, float speed)
+    {
+        SetShootingAudio();
+        // Slightly tilt the bullet downward to avoid overshooting the player
+        if (direction.y > 0.1f) // Adjust this threshold as needed
+        {
+            direction = (direction + Vector3.down * 0.1f).normalized;
+        }
+        rb.velocity = direction * speed;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        enemyBulletController?.OnHit();//
+    }
+
+    public void Explode(float damage)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, tankMask);
+
+        foreach (var collider in colliders)
+        {
+            Rigidbody rb = collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            }
+
+            // Apply damage if target has a health script
+            TankHealth tankHealth = collider.GetComponent<TankHealth>();
+            if (tankHealth != null)
+            {
+                tankHealth.TakeDamage(damage);
+            }
+
+        }
+        SetExplosionAudio();
+        impactEffect.transform.parent = null;
+        impactEffect.Play();
+
+        Destroy(impactEffect.gameObject, impactEffect.main.duration);
+        Destroy(gameObject);
+    }
+    private void SetShootingAudio()
+    {
+        source.clip = shootingClip;
+        source.Play();
+    }
+    private void SetExplosionAudio()
+    {
+        AudioSource impactAudio = impactEffect.GetComponent<AudioSource>();
+        if (impactAudio != null)
+        {
+            impactAudio.clip = explosionClip;
+            impactAudio.Play();
+        }
+    }
+
+    public void DestroyBullet()
+    {
+        Destroy(gameObject);
+    }
+}
