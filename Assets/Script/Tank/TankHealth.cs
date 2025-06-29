@@ -69,29 +69,65 @@ public class TankHealth : MonoBehaviour
         // Set the flag so that this function is only called once.
         m_Dead = true;
 
+        // Hide tank visuals
+        HideTankModel();
+
         // Move the instantiated explosion prefab to the tank's position and turn it on.
         explosionParticles.transform.position = transform.position;
         explosionParticles.gameObject.SetActive(true);
-
         // Play the particle system of the tank exploding.
         explosionParticles.Play();
-
         // Play the tank explosion sound effect.
         explosionAudio.Play();
-        //if (!isEnemy)
-        //{
-        //    GameManager.Instance.DisplayGameOverPanel();
-        //}
-        Destroy(gameObject);
-        Destroy(explosionParticles.gameObject);
 
-
-        if (isEnemy && spawner != null)
+        //Check for player tank
+        if (!isEnemy)
         {
-            spawner.CreateTank(); // Re-spawn new random enemy tank
-            //GameManager.Instance.IncreaseScore(1);
+            StartCoroutine(HandlePlayerDeath());
+        }
+        else
+        {
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+            {
+                gameManager.IncreaseScore(1);
+            }
+
+            Destroy(gameObject);
+            Destroy(explosionParticles.gameObject);
+
+            if (spawner != null)
+            {
+                //Create enemy tank(for testing)
+                spawner.CreateTank();
+            }
         }
     }
+
+    private void HideTankModel()
+    {
+        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>())
+        {
+            mesh.enabled = false;
+        }
+
+        foreach (SkinnedMeshRenderer skinnedMesh in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            skinnedMesh.enabled = false;
+        }
+
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+        {
+            col.enabled = false;
+        }
+
+        if (slider != null)
+            slider.gameObject.SetActive(false);
+
+        if(fillImage != null)
+            fillImage.gameObject.SetActive(false);
+    }
+
     public void SetSpawner(EnemyTankSpawner _spawner)
     {
         isEnemy = true;
@@ -102,5 +138,23 @@ public class TankHealth : MonoBehaviour
         maxHealth = enemyMaxHealth;
         currentHealth = maxHealth;
         SetHealthUI();
+    }
+
+    private IEnumerator HandlePlayerDeath()
+    {
+        // Wait for the particle system's duration
+        float waitTime = explosionParticles.main.duration;
+        yield return new WaitForSeconds(waitTime);
+
+        //show the Game Over panel
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            Debug.Log("gamemanager :" + gameManager);
+            gameManager.DisplayGameOverPanel();
+        }
+
+        Destroy(gameObject);
+        Destroy(explosionParticles.gameObject);
     }
 }

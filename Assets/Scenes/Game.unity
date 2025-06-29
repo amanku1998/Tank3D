@@ -889,7 +889,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828014449}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 0, z: 4}
+  m_LocalPosition: {x: 24.3, y: 0, z: -40.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1321,7 +1321,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106164578}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.5, y: 0, z: 24}
+  m_LocalPosition: {x: -4.5, y: 0, z: 28.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1420,7 +1420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1131981357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -37}
+  m_LocalPosition: {x: 0, y: 0, z: -39.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1451,7 +1451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138298112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: -27}
+  m_LocalPosition: {x: -0.5, y: 0, z: -31.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2048,7 +2048,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562660530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 0, z: -14}
+  m_LocalPosition: {x: 14.6, y: 0, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2712,16 +2712,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankList:
-  - movementSpeed: 25
+  - movementSpeed: 22
     rotationSpeed: 50
     tankType: 0
     color: {fileID: 2100000, guid: c39933e60e73205419d1f79a2af1fdac, type: 2}
-  - movementSpeed: 35
+  - movementSpeed: 30
     rotationSpeed: 80
     tankType: 1
     color: {fileID: 2100000, guid: ff21ff0ea9b18924bb1fdfbb0e58f5cb, type: 2}
-  - movementSpeed: 50
-    rotationSpeed: 160
+  - movementSpeed: 40
+    rotationSpeed: 120
     tankType: 2
     color: {fileID: 2100000, guid: 463052f3f7389124f9e7b34b0b931d0d, type: 2}
   tankView: {fileID: 8699443183017564744, guid: 8d84541ec0c146647998917a75edf49e,
@@ -3560,7 +3560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 1913730073}
   score: 0
-  gameTimeLimit: 10
+  gameTimeLimit: 180
   gameTimer: 0
   enemyTankSpawner: {fileID: 1073827807}
 --- !u!4 &2139248632

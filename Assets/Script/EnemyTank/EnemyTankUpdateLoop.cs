@@ -9,7 +9,7 @@ public class EnemyTankUpdateLoop : MonoBehaviour
     public void Init(EnemyTankController tankController)
     {
         controller = tankController;
-        Debug.Log("EnemyTankUpdateLoop initialized for " + controller);
+        //Debug.Log("EnemyTankUpdateLoop initialized for " + controller);
     }
     private void Update()
     {
