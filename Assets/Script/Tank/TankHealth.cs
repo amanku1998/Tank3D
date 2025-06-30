@@ -71,7 +71,6 @@ public class TankHealth : MonoBehaviour
 
         // Hide tank visuals
         HideTankModel();
-
         // Move the instantiated explosion prefab to the tank's position and turn it on.
         explosionParticles.transform.position = transform.position;
         explosionParticles.gameObject.SetActive(true);
@@ -87,6 +86,9 @@ public class TankHealth : MonoBehaviour
         }
         else
         {
+            TankWaveManager waveManager = FindObjectOfType<TankWaveManager>();
+            waveManager?.OnTankDestroyed();
+
             GameManager gameManager = FindObjectOfType<GameManager>();
             if (gameManager != null)
             {
@@ -96,11 +98,11 @@ public class TankHealth : MonoBehaviour
             Destroy(gameObject);
             Destroy(explosionParticles.gameObject);
 
-            if (spawner != null)
-            {
-                //Create enemy tank(for testing)
-                spawner.CreateTank();
-            }
+            //if (spawner != null)
+            //{
+            //    //Create enemy tank(for testing)
+            //    //spawner.CreateTank();
+            //}
         }
     }
 

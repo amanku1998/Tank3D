@@ -6,7 +6,7 @@ public class TankController
     private TankView tankView;
     private Rigidbody rb;
 
-    private CameraController cameraController;
+    private CameraControllerCM cameraController;
     private BulletDatabase bulletDatabase;
 
     private float currentLaunchForce;
@@ -16,7 +16,7 @@ public class TankController
     private float chargeSpeed;
     private bool fired;
 
-    public TankController(TankModel _tankModel, TankView _tankView , CameraController _cameraController, BulletDatabase _bulletDatabase)
+    public TankController(TankModel _tankModel, TankView _tankView , CameraControllerCM _cameraController, BulletDatabase _bulletDatabase)
     {
         tankModel = _tankModel;
         tankView = GameObject.Instantiate<TankView>(_tankView);
@@ -27,7 +27,8 @@ public class TankController
         tankView.SetController(this);
 
         tankView.ChangeColor(tankModel.color);
-        cameraController.SetTarget(tankView.transform);
+        //cameraController.SetTarget(tankView.transform);
+        cameraController.SetPlayer(tankView.transform);
 
         chargeSpeed = (maxLaunchForce - minLaunchForce) / maxChargeTime;
         currentLaunchForce = minLaunchForce;

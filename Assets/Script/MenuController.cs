@@ -27,8 +27,10 @@ public class MenuController : MonoBehaviour
 	private float rotation;
 
 	private TankTypes selectedType;
+    public TankWaveManager tankWaveManager;
+    public AudioSource waveMusic;
 
-	private void Start()
+    private void Start()
 	{
 		selectedType = TankTypes.GreenTank;
 		startPanel.SetActive(true);
@@ -66,12 +68,14 @@ public class MenuController : MonoBehaviour
 	public void StartGame()
 	{
 		spawnner.CreateTank(selectedType);
-		MenuTank.gameObject.SetActive(false);
+        MenuTank.gameObject.SetActive(false);
 		startPanel.SetActive(false);
 		scorePanel.SetActive(true);
 
 		gameManager.StartGame();
-	}
+        waveMusic?.Play();
+        tankWaveManager.StartWave();
+    }
 
 	public void EndGame(int score)
 	{

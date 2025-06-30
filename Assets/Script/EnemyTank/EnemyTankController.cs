@@ -81,6 +81,23 @@ public class EnemyTankController
             Vector3 direction = navAgent.velocity.normalized;
             RotateToPlayer(direction);
         }
+        else if (retreatDirection != Vector3.zero)
+        {
+            RotateToDirection(retreatDirection);
+        }
+    }
+
+    private void RotateToDirection(Vector3 direction)
+    {
+        if (direction == Vector3.zero) return;
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        Quaternion rotation = Quaternion.RotateTowards(
+            enemyTankView.transform.rotation,
+            lookRotation,
+            enemyTankModel.rotationSpeed * Time.deltaTime
+        );
+        enemyTankView.transform.rotation = rotation;
     }
 
     private void MoveTowardPlayer()
@@ -101,10 +118,12 @@ public class EnemyTankController
         }
     }
 
+    private Vector3 retreatDirection;
+
     private void KeepDistance()
     {
         float distance = Vector3.Distance(enemyTankView.transform.position, player.position);
-        float minDistance = 20; // e.g. 10f (too close)
+        float minDistance = 16; // too close
         float maxDistance = enemyTankModel.GetAttackRange(); // e.g. 30f (ideal firing range)
 
         Vector3 toPlayer = (player.position - enemyTankView.transform.position).normalized;
@@ -114,17 +133,20 @@ public class EnemyTankController
             //when Too close then retreat
             Vector3 retreatPos = enemyTankView.transform.position - toPlayer * 20f;
             MoveTo(retreatPos);
+            retreatDirection = (retreatPos - enemyTankView.transform.position).normalized;
         }
         else if (distance > maxDistance)
         {
             //when Too far
             Vector3 advancePos = player.position - toPlayer * (maxDistance - 5f); // Stop short of max
             MoveTo(advancePos);
+            retreatDirection = (advancePos - enemyTankView.transform.position).normalized;
         }
         else
         {
             //In ideal range then hold position
             navAgent.ResetPath();
+            retreatDirection = Vector3.zero;
         }
 
         RotateToPlayer(player.position - enemyTankView.transform.position);

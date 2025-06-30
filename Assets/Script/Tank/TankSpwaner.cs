@@ -16,7 +16,7 @@ public class TankSpwaner : MonoBehaviour
     public List<Tank> tankList;
 
     public TankView tankView;
-    [SerializeField] private CameraController cameraController;
+    [SerializeField] private CameraControllerCM cameraController;
 
     [SerializeField] private BulletDatabase bulletDatabase;
     public void CreateTank(TankTypes tankType)

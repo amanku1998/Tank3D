@@ -23,25 +23,27 @@ public class EnemyTankSpawner : MonoBehaviour
 
     [SerializeField] private EnemyBulletDataBase enemyBulletDatabase;
 
-    public void OnStartGame()
-    {
-        CreateTank(); 
-    }
 
-    public void CreateTank()
+    public void CreateTank(EnemyTankType tankType)
     {
-        int randomIndex = Random.Range(0, enemyTankList.Count);
-        //int randomIndex = 2;
-        EnemyTank randomData = enemyTankList[randomIndex];
+        //int randomIndex = Random.Range(0, enemyTankList.Count);
+        // EnemyTank randomData = enemyTankList[randomIndex];
+
+        EnemyTank tankData = enemyTankList.Find(t => t.tankType == tankType);
+        if (tankData == null)
+        {
+            Debug.LogWarning($"No data found for tank type: {tankType}");
+            return;
+        }
 
         EnemyTankModel enemyTankModel = new EnemyTankModel(
-            randomData.movementSpeed,
-            randomData.rotationSpeed,
-            randomData.tankType,
-            randomData.color,
-            randomData.attackRange,
-            randomData.maxHealth,
-            randomData.rapidFireRange
+            tankData.movementSpeed,
+            tankData.rotationSpeed,
+            tankData.tankType,
+            tankData.color,
+            tankData.attackRange,
+            tankData.maxHealth,
+            tankData.rapidFireRange
         );
 
         EnemyTankController enemyTankController = new EnemyTankController(enemyTankModel, 

@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 	{
 		isGamesStart = true;
         Time.timeScale = 1;
-        enemyTankSpawner.OnStartGame();
+        //enemyTankSpawner.OnStartGame();
     }
 
 	public void DisplayGameOverPanel()
